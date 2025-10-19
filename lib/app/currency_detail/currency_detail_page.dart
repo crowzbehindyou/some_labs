@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traveller/app/currency_detail/widgets/currency_info_card.dart';
-import 'package:traveller/app/currency_tab_container/currency_tab_state.dart';
+import 'package:traveller/app/currency_tab_container/bloc/currency_tab_bloc.dart';
 
 class CurrencyDetailPage extends StatelessWidget {
   const CurrencyDetailPage({super.key, required this.title});
@@ -19,7 +19,8 @@ class CurrencyDetailPage extends StatelessWidget {
         titleSpacing: _titleSpacing,
         leading: IconButton(
           onPressed: () {
-            context.read<CurrencyTabState>().removePage();
+            context.read<CurrencyTabBloc>().add(CurrencyTabRemovePage());
+            context.read<CurrencyTabBloc>().add(CurrencyTabToggleBottomBar());
           },
           icon: Icon(Icons.arrow_back),
         ),

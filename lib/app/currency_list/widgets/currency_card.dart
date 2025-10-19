@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traveller/app/currency_detail/currency_detail_page.dart';
-import 'package:traveller/app/currency_tab_container/currency_tab_state.dart';
+import 'package:traveller/app/currency_tab_container/bloc/currency_tab_bloc.dart';
+import 'package:traveller/uikit/themes/colors/app_color_theme.dart';
+import 'package:traveller/uikit/themes/text/app_text_theme.dart';
 
 class CurrencyCard extends StatelessWidget {
   const CurrencyCard({super.key, this.subtitle, required this.cost});
@@ -11,46 +13,37 @@ class CurrencyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = AppTextTheme.of(context);
+    final colorTheme = AppColorTheme.of(context);
     return Card(
       child: ListTile(
         onTap: () {
-          context.read<CurrencyTabState>().addPage(
-            CurrencyDetailPage(title: 'Австралийский доллар'),
+          context.read<CurrencyTabBloc>().add(CurrencyTabToggleBottomBar());
+          context.read<CurrencyTabBloc>().add(
+            CurrencyTabAddPage(
+              CurrencyDetailPage(title: 'Австралийский Доллар'),
+            ),
           );
         },
         minVerticalPadding: 25,
         leading: CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: colorTheme.primary,
           radius: 20,
           child: Text(
             'AUD',
-            style: TextStyle(
-              fontFamily: 'InterTight',
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-            ),
+            style: textTheme.title.copyWith(color: colorTheme.currencyISO),
           ),
         ),
         title: Text(
           'Австралийский доллар',
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: Colors.black,
-          ),
+          style: textTheme.title.copyWith(color: colorTheme.title),
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
         ),
         subtitle: subtitle != null
             ? Text(
                 subtitle!,
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 10,
-                  color: Colors.grey,
-                ),
+                style: textTheme.subtitle.copyWith(color: colorTheme.subtitle),
               )
             : null,
         trailing: FittedBox(
@@ -60,12 +53,7 @@ class CurrencyCard extends StatelessWidget {
             children: [
               Text(
                 cost.toString(),
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF1FD522),
-                ),
+                style: textTheme.title.copyWith(color: colorTheme.newsCost),
               ),
               SizedBox(width: 4),
               Image.asset('assets/icons/arrow_up.png', width: 12, height: 12),
@@ -73,34 +61,6 @@ class CurrencyCard extends StatelessWidget {
                   ? Icon(size: 14, Icons.favorite_border)
                   : Icon(size: 14, Icons.favorite),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CurrencyIcon extends StatelessWidget {
-  const CurrencyIcon({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: BoxConstraints.tight(Size.square(40)),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'InterTight',
-            fontSize: 12,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
           ),
         ),
       ),
