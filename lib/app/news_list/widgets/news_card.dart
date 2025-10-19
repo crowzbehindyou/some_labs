@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:traveller/app/utils/url_launcher.dart';
+import 'package:traveller/uikit/themes/colors/app_color_theme.dart';
+import 'package:traveller/uikit/themes/text/app_text_theme.dart';
 
 class NewsCard extends StatelessWidget {
   const NewsCard({super.key});
@@ -8,6 +10,8 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = AppTextTheme.of(context);
+    final colorTheme = AppColorTheme.of(context);
     return GestureDetector(
       onTap: () => tryLaunchUrl(_url),
       child: Container(
@@ -20,12 +24,7 @@ class NewsCard extends StatelessWidget {
           children: [
             Text(
               'Вводятся новые правила допуска на финансовый рынок кредитных потребительских кооперативов',
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
+              style: textTheme.title.copyWith(color: colorTheme.title),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 6),
@@ -34,20 +33,15 @@ class NewsCard extends StatelessWidget {
                 children: [
                   Text(
                     'Ср. 10:47 05.02.25',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF505050),
+                    style: textTheme.title.copyWith(
+                      color: colorTheme.newsSubtitle,
                     ),
                   ),
                   Text(
                     'cbr.ru',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 12,
+                    style: textTheme.title.copyWith(
+                      color: colorTheme.newsSubtitle,
                       fontWeight: FontWeight.w400,
-                      color: Color(0xFF505050),
                     ),
                   ),
                 ],
